@@ -3,6 +3,7 @@ from typing import Optional
 from unified_planning.shortcuts import (
     GT,
     AbstractProblem,
+    BoolType,
     DurativeAction,
     EndTiming,
     Problem,
@@ -50,3 +51,51 @@ class CustomMatchCellarTemporalNumericIceDomain(AbstractDomain):
         base.add_action(mend_fuse)
 
         return base
+
+    def build_problem_pddl(self, problem: ProblemInstance) -> Optional[AbstractProblem]:
+        base = self.build_problem_base(problem)
+        if base is None:
+            return None
+        pddl = base.clone()
+
+        a = pddl.add_fluent("a", BoolType(), default_initial_value=False)
+        b = pddl.add_fluent("b", BoolType(), default_initial_value=False)
+        c = pddl.add_fluent("c", BoolType(), default_initial_value=False)
+        handfree = pddl.fluent("handfree")
+        num_matches = pddl.fluent("num-matches")
+        num_lit_matches = pddl.fluent("num-lit-matches")
+
+        mend_fuse = pddl.action("mend_fuse").clone()
+
+        light_match = DurativeAction("light_match")
+        light_match.set_closed_duration_interval(6, 7)
+        light_match.add_condition(EndTiming(), c)
+        light_match.add_effect(StartTiming(), a, True)
+        light_match.add_effect(EndTiming(), c, False)
+
+        strike_match = DurativeAction("strike_match")
+        strike_match.set_fixed_duration(1)
+        strike_match.add_condition(StartTiming(), a)
+        strike_match.add_condition(StartTiming(), handfree)
+        strike_match.add_condition(StartTiming(), GT(num_matches, 0))
+        strike_match.add_effect(StartTiming(), a, False)
+        strike_match.add_effect(StartTiming(), handfree, False)
+        strike_match.add_decrease_effect(StartTiming(), num_matches, 1)
+        strike_match.add_effect(EndTiming(), b, True)
+        strike_match.add_effect(EndTiming(), handfree, True)
+
+        lit_match = DurativeAction("lit_match")
+        lit_match.set_fixed_duration(5)
+        lit_match.add_condition(StartTiming(), b)
+        lit_match.add_effect(StartTiming(), b, False)
+        lit_match.add_increase_effect(StartTiming(), num_lit_matches, 1)
+        lit_match.add_effect(EndTiming(), c, True)
+        lit_match.add_decrease_effect(EndTiming(), num_lit_matches, 1)
+
+        pddl.clear_actions()
+        pddl.add_action(light_match)
+        pddl.add_action(strike_match)
+        pddl.add_action(lit_match)
+        pddl.add_action(mend_fuse)
+
+        return pddl
