@@ -21,7 +21,6 @@ for paper in (Path(__file__).parent).iterdir():
                     .replace("-", "")
                     .replace("_", "")
                 )
-                print(name)
                 globals()[name] = type(
                     name,
                     (FolderAbstractDomain,),
