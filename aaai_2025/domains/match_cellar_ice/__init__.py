@@ -14,22 +14,20 @@ from tyr.problems.model.domain import AbstractDomain
 from tyr.problems.model.instance import ProblemInstance
 
 
-class CustomMatchCellarTemporalNumericIceDomain(AbstractDomain):
+class Aaai2025MatchCellarIceDomain(AbstractDomain):
     def get_num_problems(self) -> int:
         from tyr.problems.domains.custom import (  # type: ignore[attr-defined] # noqa: E501 # pylint: disable=line-too-long
-            CustomMatchCellarTemporalNumericDomain,
+            Aaai2025MatchCellarDomain,
         )
 
-        return CustomMatchCellarTemporalNumericDomain().get_num_problems()
+        return Aaai2025MatchCellarDomain().get_num_problems()
 
     def build_problem_base(self, problem: ProblemInstance) -> Optional[AbstractProblem]:
         from tyr.problems.domains.custom import (  # type: ignore[attr-defined] # noqa: E501 # pylint: disable=line-too-long
-            CustomMatchCellarTemporalNumericDomain,
+            Aaai2025MatchCellarDomain,
         )
 
-        base: Problem = (
-            CustomMatchCellarTemporalNumericDomain().build_problem_base(problem).clone()
-        )
+        base: Problem = Aaai2025MatchCellarDomain().build_problem_base(problem).clone()
 
         handfree = base.fluent("handfree")
         num_matches = base.fluent("num-matches")
