@@ -3,7 +3,7 @@ from typing import Dict, List, Optional
 
 import unified_planning as up
 from unified_planning.model.scheduling.scheduling_problem import SchedulingProblem
-from unified_planning.shortcuts import LE, AbstractProblem, Compiler, CompilationKind
+from unified_planning.shortcuts import LE, AbstractProblem, CompilationKind, Compiler
 
 from tyr.problems.converter import scheduling_to_actions
 from tyr.problems.model import AbstractDomain, ProblemInstance
