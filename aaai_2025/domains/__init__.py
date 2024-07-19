@@ -1,1 +1,2 @@
+from .depots import Aaai2025DepotsDomain
 from .match_cellar_ice import Aaai2025MatchCellarIceDomain
