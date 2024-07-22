@@ -2,13 +2,13 @@ from pathlib import Path
 from typing import Optional
 
 from unified_planning.shortcuts import (
-    AbstractProblem,
-    IntType,
-    InstantaneousAction,
-    LE,
     GE,
-    Plus,
+    LE,
+    AbstractProblem,
+    InstantaneousAction,
+    IntType,
     MinimizeActionCosts,
+    Plus,
 )
 
 from tyr.problems.model import FolderAbstractDomain, ProblemInstance
