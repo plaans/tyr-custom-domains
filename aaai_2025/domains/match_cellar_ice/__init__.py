@@ -27,7 +27,10 @@ class Aaai2025MatchCellarIceDomain(AbstractDomain):
             Aaai2025MatchCellarDomain,
         )
 
-        base: Problem = Aaai2025MatchCellarDomain().build_problem_base(problem).clone()
+        base = Aaai2025MatchCellarDomain().build_problem_base(problem)
+        if base is None:
+            return None
+        base = base.clone()
 
         handfree = base.fluent("handfree")
         num_matches = base.fluent("num-matches")
