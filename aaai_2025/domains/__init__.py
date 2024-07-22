@@ -1,3 +1,4 @@
+from .counters import Aaai2025CountersDomain
 from .depots import Aaai2025DepotsDomain
 from .jobshop import Aaai2025JobshopDomain
 from .match_cellar_ice import Aaai2025MatchCellarIceDomain
