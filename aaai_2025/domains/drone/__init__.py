@@ -36,7 +36,7 @@ class Aaai2025DroneDomain(FolderAbstractDomain):
         pb.add_actions([visit, recharge])
 
         # Get the types
-        number = IntType(lower_bound=0)
+        number = IntType(lower_bound=0, upper_bound=100)
 
         # Get the fluents
         x = pb.fluent("x")

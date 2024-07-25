@@ -33,7 +33,7 @@ class Aaai2025CountersDomain(FolderAbstractDomain):
 
         # Get the types
         counter_type = pb.user_type("counter")
-        number = IntType(lower_bound=0)
+        number = IntType(lower_bound=0, upper_bound=100)
 
         # Get the fluents
         value = pb.fluent("value")

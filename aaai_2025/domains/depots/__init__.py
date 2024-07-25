@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional
 from unified_planning.io import PDDLReader
 from unified_planning.shortcuts import AbstractProblem
 
-from tyr.problems.converter import reduce_problem
+from tyr.problems.converter import reduce_problem, remove_user_typing
 from tyr.problems.model import FolderAbstractDomain, ProblemInstance
 
 
@@ -67,3 +67,11 @@ class Aaai2025DepotsDomain(FolderAbstractDomain):
             no_div.add_quality_metric(x)
 
         return reduce_problem(no_div, int(problem.uid) % 5 + 1)
+
+    def build_problem_no_div_flat(
+        self, problem: ProblemInstance
+    ) -> Optional[AbstractProblem]:
+        no_div = problem.versions["no_div"].value
+        if no_div is None:
+            return None
+        return remove_user_typing(no_div)
