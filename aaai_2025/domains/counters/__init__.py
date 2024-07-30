@@ -5,10 +5,12 @@ from unified_planning.shortcuts import (
     GE,
     LE,
     AbstractProblem,
-    InstantaneousAction,
+    DurativeAction,
+    EndTiming,
     IntType,
     MinimizeActionCosts,
     Plus,
+    StartTiming,
 )
 
 from tyr.problems.model import FolderAbstractDomain, ProblemInstance
@@ -40,14 +42,18 @@ class Aaai2025CountersDomain(FolderAbstractDomain):
         max_int = pb.fluent("max_int")
 
         # Create the actions
-        increment = InstantaneousAction("increment", c=counter_type, k=number)
-        increment.add_precondition(LE(Plus(value(increment.c), increment.k), max_int))
-        increment.add_increase_effect(value(increment.c), increment.k)
+        increment = DurativeAction("increment", c=counter_type, k=number)
+        increment.set_fixed_duration(1)
+        increment.add_condition(
+            StartTiming(), LE(Plus(value(increment.c), increment.k), max_int)
+        )
+        increment.add_increase_effect(EndTiming(), value(increment.c), increment.k)
         pb.add_action(increment)
 
-        decrement = InstantaneousAction("decrement", c=counter_type, k=number)
-        decrement.add_precondition(GE(value(decrement.c), decrement.k))
-        decrement.add_decrease_effect(value(decrement.c), decrement.k)
+        decrement = DurativeAction("decrement", c=counter_type, k=number)
+        decrement.set_fixed_duration(1)
+        decrement.add_condition(StartTiming(), GE(value(decrement.c), decrement.k))
+        decrement.add_decrease_effect(EndTiming(), value(decrement.c), decrement.k)
         pb.add_action(decrement)
 
         # Create action costs
