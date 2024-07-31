@@ -15,25 +15,30 @@
 ;; configurations of such counters.  
 
 (define (domain fn-counters)
-    ;(:requirements :strips :typing :equality :adl)
-    (:types counter)
+    (:requirements :strips :typing :numeric-fluents :durative-actions :action-costs)
+    (:types
+        counter
+    )
 
     (:functions
         (value ?c - counter);; - int  ;; The value shown in counter ?c
-        (max_int);; -  int ;; The maximum integer we consider - a static value
+        (max_int);; - int ;; The maximum integer we consider - a static value
+        (total_cost);; - int ;; The total cost of the plan
     )
 
     ;; Increment the value in the given counter by one
-    (:action increment
-         :parameters (?c - counter)
-         :precondition (and (<= (+ (value ?c) 1) (max_int)))
-         :effect (and (increase (value ?c) 1))
+    (:durative-action increment
+        :parameters (?c - counter)
+        :duration (= ?duration 1)
+        :condition (and (at start (<= (+ (value ?c) 1) (max_int))))
+        :effect (and (at end (increase (value ?c) 1)) (at end (increase (total_cost) 1)))
     )
 
     ;; Decrement the value in the given counter by one
-    (:action decrement
-         :parameters (?c - counter)
-         :precondition (and (>= (value ?c) 1))
-         :effect (and (decrease (value ?c) 1))
+    (:durative-action decrement
+        :parameters (?c - counter)
+        :duration (= ?duration 1)
+        :condition (and (at start (>= (value ?c) 1)))
+        :effect (and (at end (decrease (value ?c) 1)) (at end (increase (total_cost) 1)))
     )
 )

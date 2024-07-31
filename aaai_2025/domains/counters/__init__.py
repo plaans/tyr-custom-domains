@@ -40,27 +40,23 @@ class Aaai2025CountersDomain(FolderAbstractDomain):
         # Get the fluents
         value = pb.fluent("value")
         max_int = pb.fluent("max_int")
+        total_cost = pb.fluent("total_cost")
 
         # Create the actions
         increment = DurativeAction("increment", c=counter_type, k=number)
-        increment.set_fixed_duration(1)
+        increment.set_fixed_duration(increment.k)
         increment.add_condition(
             StartTiming(), LE(Plus(value(increment.c), increment.k), max_int)
         )
         increment.add_increase_effect(EndTiming(), value(increment.c), increment.k)
+        increment.add_increase_effect(EndTiming(), total_cost, increment.k)
         pb.add_action(increment)
 
         decrement = DurativeAction("decrement", c=counter_type, k=number)
-        decrement.set_fixed_duration(1)
+        decrement.set_fixed_duration(decrement.k)
         decrement.add_condition(StartTiming(), GE(value(decrement.c), decrement.k))
         decrement.add_decrease_effect(EndTiming(), value(decrement.c), decrement.k)
+        decrement.add_increase_effect(EndTiming(), total_cost, increment.k)
         pb.add_action(decrement)
-
-        # Create action costs
-        costs = {
-            increment: increment.k,
-            decrement: increment.k,
-        }
-        pb.add_quality_metric(MinimizeActionCosts(costs, 1))
 
         return pb

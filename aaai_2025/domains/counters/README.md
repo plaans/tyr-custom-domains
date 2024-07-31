@@ -6,6 +6,7 @@
 
 ## Modifications
 
+- Add a duration of 1 time unit to each action.
 - Add a control parameter to choose by how much the increase/decrease is done (*Done with UPF*).
 
 ## Domain Description
