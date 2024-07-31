@@ -6,6 +6,7 @@
 
 ## Modifications
 
+- Add a duration of 1 time unit to each action.
 - Add control parameters to choose by how much the increase/decrease is done for the three dimensions, the three increases/decreases are merged into one action (*Done with UPF*)
 
 ## Domain Description
