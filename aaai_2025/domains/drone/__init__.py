@@ -1,14 +1,15 @@
 from pathlib import Path
 from typing import Optional
 
+from unified_planning.plans import Plan
 from unified_planning.shortcuts import (
     GE,
     LE,
     AbstractProblem,
     DurativeAction,
     EndTiming,
+    FNode,
     IntType,
-    MinimizeActionCosts,
     Minus,
     Plus,
     StartTiming,
@@ -21,6 +22,19 @@ class Aaai2025DroneDomain(FolderAbstractDomain):
     def __init__(self) -> None:
         super().__init__()
         self.folder = Path(__file__).parent
+
+    def get_quality_of_plan(
+        self, plan: Plan, version: AbstractProblem
+    ) -> Optional[float]:
+        cost = 0.0
+        for _, a, _ in plan.timed_actions:
+            if a.action.name in ["visit", "recharge"]:
+                cost += 1
+            else:
+                cost += a.actual_parameters[0] if len(a.actual_parameters) > 0 else 1
+        if isinstance(cost, FNode):
+            return cost.simplify().constant_value()
+        return cost
 
     def build_problem_ctrl_params(
         self, problem: ProblemInstance
