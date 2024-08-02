@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Optional
 
-from unified_planning.plans import Plan
+from unified_planning.plans import Plan, SequentialPlan, TimeTriggeredPlan
 from unified_planning.shortcuts import (
     GE,
     LE,
@@ -26,7 +26,13 @@ class Aaai2025CountersDomain(FolderAbstractDomain):
         self, plan: Plan, version: AbstractProblem
     ) -> Optional[float]:
         cost = 0.0
-        for _, a, _ in plan.timed_actions:
+        if isinstance(plan, TimeTriggeredPlan):
+            actions = [a[1] for a in plan.timed_actions]
+        elif isinstance(plan, SequentialPlan):
+            actions = plan.actions
+        else:
+            raise NotImplementedError(f"Plan type {type(plan)} not supported")
+        for a in actions:
             cost += a.actual_parameters[1] if len(a.actual_parameters) > 1 else 1
         if isinstance(cost, FNode):
             return cost.simplify().constant_value()
