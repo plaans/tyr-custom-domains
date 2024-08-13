@@ -7,7 +7,8 @@
 ## Modifications
 
 - Add a duration of 1 time unit to each action.
-- Add control parameters to choose by how much the increase/decrease is done for the three dimensions (*Done with UPF*)
+- Add control parameters to choose by how much the increase/decrease is done for the three dimensions (*Done with UPF*).
+- Cannot move if the drone is already in movement.
 
 ## Domain Description
 

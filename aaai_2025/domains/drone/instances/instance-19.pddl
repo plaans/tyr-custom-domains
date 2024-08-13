@@ -193,6 +193,7 @@
         x8y6z2 - location
     )
     (:init
+        (free)
         (= (x) 0)
         (= (y) 0)
         (= (z) 0)

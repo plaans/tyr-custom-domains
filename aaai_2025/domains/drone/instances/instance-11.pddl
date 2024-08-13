@@ -44,6 +44,7 @@
         x1y4z3 - location
     )
     (:init
+        (free)
         (= (x) 0)
         (= (y) 0)
         (= (z) 0)

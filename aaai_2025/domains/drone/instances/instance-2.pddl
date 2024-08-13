@@ -8,6 +8,7 @@
         x0y0z3 - location
     )
     (:init
+        (free)
         (= (x) 0)
         (= (y) 0)
         (= (z) 0)

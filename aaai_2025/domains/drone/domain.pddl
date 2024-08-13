@@ -13,6 +13,7 @@
 
     (:predicates
         (visited ?x - location)
+        (free)
     )
     (:functions
         (x)
@@ -36,10 +37,14 @@
         :parameters ()
         :duration (= ?duration 1)
         :condition (and
+            (at start (free))
             (at start (>= (battery-level) 1))
             (at start (<= (x) (- (max_x) 1)))
         )
-        :effect (and(at end (increase (x) 1))
+        :effect (and
+            (at start (not (free)))
+            (at end (free))
+            (at end (increase (x) 1))
             (at end (decrease (battery-level) 1))
             (at end (increase (total_cost) 1))
         )
@@ -49,10 +54,14 @@
         :parameters ()
         :duration (= ?duration 1)
         :condition (and
+            (at start (free))
             (at start (>= (battery-level) 1))
             (at start (>= (x) (+ (min_x) 1)))
         )
-        :effect (and (at end (decrease (x) 1))
+        :effect (and 
+            (at start (not (free)))
+            (at end (free))
+            (at end (decrease (x) 1))
             (at end (decrease (battery-level) 1))
             (at end (increase (total_cost) 1))
         )
@@ -62,10 +71,14 @@
         :parameters ()
         :duration (= ?duration 1)
         :condition (and
+            (at start (free))
             (at start (>= (battery-level) 1))
             (at start (<= (y) (- (max_y) 1)))
         )
-        :effect (and (at end (increase (y) 1))
+        :effect (and 
+            (at start (not (free)))
+            (at end (free))
+            (at end (increase (y) 1))
             (at end (decrease (battery-level) 1))
             (at end (increase (total_cost) 1))
         )
@@ -74,10 +87,14 @@
         :parameters ()
         :duration (= ?duration 1)
         :condition (and
+            (at start (free))
             (at start (>= (battery-level) 1))
             (at start (>= (y) (+ (min_y) 1)))
         )
-        :effect (and (at end (decrease (y) 1))
+        :effect (and 
+            (at start (not (free)))
+            (at end (free))
+            (at end (decrease (y) 1))
             (at end (decrease (battery-level) 1))
             (at end (increase (total_cost) 1))
         )
@@ -87,10 +104,14 @@
         :parameters ()
         :duration (= ?duration 1)
         :condition (and
+            (at start (free))
             (at start (>= (battery-level) 1))
             (at start (<= (z) (- (max_z) 1)))
         )
-        :effect (and (at end (increase (z) 1))
+        :effect (and 
+            (at start (not (free)))
+            (at end (free))
+            (at end (increase (z) 1))
             (at end (decrease (battery-level) 1))
             (at end (increase (total_cost) 1))
         )
@@ -99,10 +120,14 @@
         :parameters ()
         :duration (= ?duration 1)
         :condition (and
+            (at start (free))
             (at start (>= (battery-level) 1))
             (at start (>= (z) (+ (min_z) 1)))
         )
-        :effect (and (at end (decrease (z) 1))
+        :effect (and 
+            (at start (not (free)))
+            (at end (free))
+            (at end (decrease (z) 1))
             (at end (decrease (battery-level) 1))
             (at end (increase (total_cost) 1))
         )
@@ -111,6 +136,7 @@
     (:action visit
         :parameters (?l - location)
         :precondition (and
+            (free)
             (>= (battery-level) 1)
             (= (xl ?l) (x))
             (= (yl ?l) (y))
@@ -124,6 +150,7 @@
     (:action recharge
         :parameters ()
         :precondition (and
+            (free)
             (= (x) 0)
             (= (y) 0)
             (= (z) 0)

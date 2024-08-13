@@ -172,6 +172,7 @@
         x6y5z3 - location
     )
     (:init
+        (free)
         (= (x) 0)
         (= (y) 0)
         (= (z) 0)
