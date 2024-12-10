@@ -3,6 +3,8 @@ from pathlib import Path
 from tyr.problems.model import FolderAbstractDomain
 
 from .aaai_2025 import *
+from .cpaior_num_2025 import *
+from .cpaior_sym_2025 import *
 
 
 def is_domain_dir(p: Path) -> bool:
