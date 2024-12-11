@@ -45,9 +45,9 @@ class CpaiorNum2025RoversDomain(FolderAbstractDomain):
             energy = saved_values["energy"][(x.name,)]
             rate = saved_values["recharge-rate"][(x.name,)]
             # pylint: disable=eval-used
-            atom = int(round(eval(str(1 / rate * 100))))  # nosec: B307
+            atom = float(eval(str(1 / rate * 100)))  # nosec: B307
             for multi, suffix in [
-                (energy, ""),
+                (80 - energy, ""),
                 (80, "-max"),
                 *((i, f"-{i}") for i in range(1, 9) if i != 7),
             ]:
