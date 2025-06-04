@@ -7,6 +7,7 @@ from .cpaior_num_2025 import *
 from .cpaior_sym_2025 import *
 from .ecai_2025 import *
 from .socs_2025 import *
+from .warm_up import *
 
 
 def is_domain_dir(p: Path) -> bool:

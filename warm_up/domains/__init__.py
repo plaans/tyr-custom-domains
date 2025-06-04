@@ -1,0 +1,7 @@
+from .airport_time import WarmUpAirportTimeDomain
+from .depots_num import WarmUpDepotsNumDomain
+from .jobshop_num import WarmUpJobshopNumDomain
+from .rcpsp_num import WarmUpRcpspNumDomain
+from .rovers_num import WarmUpRoversNumDomain
+from .satellite_num import WarmUpSatelliteNumDomain
+from .satellite_windows_time import WarmUpSatelliteWindowsTimeDomain
