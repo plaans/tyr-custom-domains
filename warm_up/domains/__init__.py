@@ -1,5 +1,7 @@
 from .airport_time import WarmUpAirportTimeDomain
+from .counters_num import WarmUpCountersNumDomain
 from .depots_num import WarmUpDepotsNumDomain
+from .drone_num import WarmUpDroneNumDomain
 from .jobshop_num import WarmUpJobshopNumDomain
 from .rcpsp_num import WarmUpRcpspNumDomain
 from .rovers_num import WarmUpRoversNumDomain
