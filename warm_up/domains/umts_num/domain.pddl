@@ -59,14 +59,14 @@
 	(app-channels ?A-new - application ?M - mobile)
 
 	(list-pdu ?L - list)
-	(list-ml ?L - list)
+	; (list-ml ?L - list)
 
 	(time-trm ?A-new - application) 
 	(time-ct ?A-new - application) 
 	(time-am ?A-new - application)  
 	(time-aeem ?A-new - application) 
 	(time-rrc ?A-new - application)
-	(time-rrc-negotiation ?A-new - application) 
+	; (time-rrc-negotiation ?A-new - application) 
 	(time-rab ?A-new - application)  
 	(time-aeei ?A-new - application)  
 	(time-bs ?A-new - application)  
