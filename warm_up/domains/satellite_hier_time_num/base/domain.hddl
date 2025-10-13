@@ -15,6 +15,9 @@
 
   (:functions (slew_time ?a ?b - direction)
             (calibration_time ?a - instrument ?d - direction)
+            (data_capacity ?s - satellite)
+            (data ?d - direction ?m - mode)
+            (data-stored)
 	)
 
 	(:task do_observation
@@ -213,7 +216,11 @@
                       (over all (power_on ?i))
                       (over all (pointing ?s ?d))
                       (at end (power_on ?i))
+                      (at start (>= (data_capacity ?s) (data ?d ?m)))
                )
-   :effect (at end (have_image ?d ?m))
+   :effect (and (at end (have_image ?d ?m))
+                (at start (decrease (data_capacity ?s) (data ?d ?m)))
+                (at end (increase (data-stored) (data ?d ?m)))
+           )
   )
 )

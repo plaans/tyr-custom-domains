@@ -21,7 +21,11 @@
              (clear ?x - surface))
 
 (:functions (drive_duration ?x - truck ?y - place ?z - place)
-	          (load_duration ?x - hoist ?y - crate))
+	          (load_duration ?x - hoist ?y - crate)
+	          (weight ?c - crate)
+	          (load_limit ?t - truck)
+	          (current_load ?t - truck)
+	          (fuel-cost))
 
 (:task do_put_on
   :parameters (?c - crate ?s2 - surface) )
@@ -117,14 +121,14 @@
   :parameters (?x - truck ?y - place ?z - place)
   :duration (= ?duration (drive_duration ?x ?y ?z))
   :condition (and (at start (at ?x ?y)))
-  :effect (and (at start (not (at ?x ?y))) (at end (at ?x ?z))))
+  :effect (and (at start (not (at ?x ?y))) (at end (at ?x ?z)) (at end (increase (fuel-cost) 10))))
 
 (:durative-action Lift
   :parameters (?x - hoist ?y - crate ?z - surface ?p - place)
   :duration (= ?duration 1)
   :condition (and (over all (at ?x ?p)) (at start (available ?x)) (at start (at ?y ?p)) (at start (on ?y ?z)) (at start (clear ?y)))
   :effect (and (at start (not (at ?y ?p))) (at start (lifting ?x ?y)) (at start (not (clear ?y))) (at start (not (available ?x)))
-              (at start (clear ?z)) (at start (not (on ?y ?z)))))
+              (at start (clear ?z)) (at start (not (on ?y ?z))) (at end (increase (fuel-cost) 1))))
 
 (:durative-action Drop
   :parameters (?x - hoist ?y - crate ?z - surface ?p - place)
@@ -136,14 +140,17 @@
 (:durative-action Load
   :parameters (?x - hoist ?y - crate ?z - truck ?p - place)
   :duration (= ?duration (load_duration ?x ?y))
-  :condition (and (over all (at ?x ?p)) (over all (at ?z ?p)) (over all (lifting ?x ?y)))
-  :effect (and (at end (not (lifting ?x ?y))) (at end (in ?y ?z)) (at end (available ?x))))
+  :condition (and (over all (at ?x ?p)) (over all (at ?z ?p)) (over all (lifting ?x ?y))
+              (at start (<= (+ (current_load ?z) (weight ?y)) (load_limit ?z))))
+  :effect (and (at end (not (lifting ?x ?y))) (at end (in ?y ?z)) (at end (available ?x))
+              (at end (increase (current_load ?z) (weight ?y)))))
 
 (:durative-action Unload
   :parameters (?x - hoist ?y - crate ?z - truck ?p - place)
   :duration (= ?duration (load_duration ?x ?y))
   :condition (and (over all (at ?x ?p)) (over all (at ?z ?p)) (at start (available ?x)) (at start (in ?y ?z)))
-  :effect (and (at start (not (in ?y ?z))) (at start (not (available ?x))) (at start (lifting ?x ?y))))
+  :effect (and (at start (not (in ?y ?z))) (at start (not (available ?x))) (at start (lifting ?x ?y))
+              (at start (decrease (current_load ?z) (weight ?y)))))
 
 (:action nop
   :parameters ()
