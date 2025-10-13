@@ -1,5 +1,6 @@
 from .airport_time import WarmUpAirportTimeDomain
 from .counters_num import WarmUpCountersNumDomain
+from .depots_hier_time_num import WarmUpDepotsHierTimeNumDomain
 from .depots_num import WarmUpDepotsNumDomain
 from .depots_time import WarmUpDepotsTimeDomain
 from .driverlog_time import WarmUpDriverlogTimeDomain
@@ -7,7 +8,9 @@ from .drone_num import WarmUpDroneNumDomain
 from .jobshop_num import WarmUpJobshopNumDomain
 from .logistics_classic import WarmUpLogisticsClassicDomain
 from .rcpsp_num import WarmUpRcpspNumDomain
+from .rovers_hier_time_num import WarmUpRoversHierTimeNumDomain
 from .rovers_num import WarmUpRoversNumDomain
+from .satellite_hier_time_num import WarmUpSatelliteHierTimeNumDomain
 from .satellite_num import WarmUpSatelliteNumDomain
 from .satellite_windows_time import WarmUpSatelliteWindowsTimeDomain
 from .zenotravel_time import WarmUpZenotravelTimeDomain
