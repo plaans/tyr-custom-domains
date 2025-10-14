@@ -6,8 +6,10 @@ from .depots_time import WarmUpDepotsTimeDomain
 from .driverlog_time import WarmUpDriverlogTimeDomain
 from .drone_num import WarmUpDroneNumDomain
 from .jobshop_num import WarmUpJobshopNumDomain
+from .jobshop_sched import WarmUpJobshopSchedDomain
 from .logistics_classic import WarmUpLogisticsClassicDomain
 from .rcpsp_num import WarmUpRcpspNumDomain
+from .rcpsp_sched import WarmUpRcpspSchedDomain
 from .rovers_hier_time_num import WarmUpRoversHierTimeNumDomain
 from .rovers_num import WarmUpRoversNumDomain
 from .satellite_hier_time_num import WarmUpSatelliteHierTimeNumDomain
