@@ -15,37 +15,37 @@ class WarmUpDepotsHierTimeNumDomain(AbstractDomain):
     def _build_problem_base(
         self, problem: ProblemInstance, version: str
     ) -> Optional[AbstractProblem]:
-        base_num = WarmUpDepotsNumDomain().get_problem_version(
+        base_tn = WarmUpDepotsNumDomain().get_problem_version(
             problem.uid, version
         )
-        if base_num is None:
+        if base_tn is None:
             return None
         mapping = {"on": "do_put_on"}
-        hier_dom_file = (Path(__file__).parent / "base/domain.hddl").resolve()
-        return goals_to_tasks(base_num, hier_dom_file, mapping)
+        hier_dom_file = (Path(__file__).parent / "domain.hddl").resolve()
+        return goals_to_tasks(base_tn, hier_dom_file, mapping)
 
     def build_problem_base(self, problem: ProblemInstance) -> Optional[AbstractProblem]:
         return self._build_problem_base(problem, "base")
 
-    def build_problem_flat(self, problem: ProblemInstance) -> Optional[AbstractProblem]:
-        return self._build_problem_base(problem, "flat")
+    def build_problem_red(self, problem: ProblemInstance) -> Optional[AbstractProblem]:
+        return self._build_problem_base(problem, "red")
 
     def _build_problem_no_div(
         self, pb: ProblemInstance, version: str
     ) -> Optional[AbstractProblem]:
-        base_num = WarmUpDepotsNumDomain().get_problem_version(pb.uid, version)
-        if base_num is None:
+        base_tn = WarmUpDepotsNumDomain().get_problem_version(pb.uid, version)
+        if base_tn is None:
             return None
         mapping = {"on": "do_put_on"}
-        hier_dom_file = (Path(__file__).parent / "no_div/domain.hddl").resolve()
-        return goals_to_tasks(base_num, hier_dom_file, mapping)
+        hier_dom_file = (Path(__file__).parent / "domain_no_div.hddl").resolve()
+        return goals_to_tasks(base_tn, hier_dom_file, mapping)
 
     def build_problem_no_div(
         self, problem: ProblemInstance
     ) -> Optional[AbstractProblem]:
-        return self._build_problem_no_div(problem, "base")
+        return self._build_problem_no_div(problem, "no_div")
 
-    def build_problem_flat_no_div(
+    def build_problem_red_no_div(
         self, problem: ProblemInstance
     ) -> Optional[AbstractProblem]:
-        return self._build_problem_no_div(problem, "flat")
+        return self._build_problem_no_div(problem, "red_no_div")
