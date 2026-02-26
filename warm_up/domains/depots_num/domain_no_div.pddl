@@ -12,14 +12,12 @@
              (available ?x - hoist)
              (clear ?x - surface))
 
-(:functions (distance ?x - place ?y - place)
-	    (speed ?t - truck)
-	    (weight ?c - crate)
-	    (power ?h - hoist))
+(:functions (drive_duration ?x - truck ?y - place ?z - place)
+            (load_duration ?x - hoist ?y - crate))
 	
 (:durative-action Drive
 :parameters (?x - truck ?y - place ?z - place) 
-:duration (= ?duration (/ (distance ?y ?z) (speed ?x)))
+:duration (= ?duration (drive_duration ?x ?y ?z))
 :condition (and (at start (at ?x ?y)))
 :effect (and (at start (not (at ?x ?y))) (at end (at ?x ?z))))
 
@@ -39,13 +37,13 @@
 
 (:durative-action Load
 :parameters (?x - hoist ?y - crate ?z - truck ?p - place)
-:duration (= ?duration (/ (weight ?y) (power ?x)))
+:duration (= ?duration (load_duration ?x ?y))
 :condition (and (over all (at ?x ?p)) (over all (at ?z ?p)) (over all (lifting ?x ?y)))
 :effect (and (at end (not (lifting ?x ?y))) (at end (in ?y ?z)) (at end (available ?x))))
 
 (:durative-action Unload 
 :parameters (?x - hoist ?y - crate ?z - truck ?p - place)
-:duration (= ?duration (/ (weight ?y) (power ?x)))
+:duration (= ?duration (load_duration ?x ?y))
 :condition (and (over all (at ?x ?p)) (over all (at ?z ?p)) (at start (available ?x)) (at start (in ?y ?z)))
 :effect (and (at start (not (in ?y ?z))) (at start (not (available ?x))) (at start (lifting ?x ?y))))
 
